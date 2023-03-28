@@ -1,2 +1,3 @@
 # PAPapplication
  
+openjdk-19
