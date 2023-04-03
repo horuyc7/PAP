@@ -24,12 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/user")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/user/all")
+    @GetMapping("/all")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -45,7 +45,7 @@ public class UserController {
 
     }*/
 
-    @GetMapping("/user/searchby/fname/{name}")
+    @GetMapping("/searchby/fname/{name}")
     public ResponseEntity<?> getUsersByFirstName(@PathVariable(value = "name") String firstName) {
         List<User> users = userRepository.findByfirstNameIgnoreCase(firstName);
 
@@ -59,7 +59,7 @@ public class UserController {
 
 
    // public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id") Long employeeId)
-    @GetMapping("/user/searchby/id/{id}")
+    @GetMapping("/searchby/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId)
     //public ResponseEntity<Employee> getEmployeeById(@PathVariable Long userId)
             throws ResourceNotFoundException {
@@ -68,7 +68,7 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    @PostMapping("/user/add")
+    @PostMapping("/add")
     //public Employee createEmployee(@RequestBody User user) {
     public ResponseEntity<User> createUser(@RequestBody User user)
     {
@@ -77,7 +77,7 @@ public class UserController {
         return ResponseEntity.created(null).body(savedUser);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,
                                                @RequestBody User userDetails) throws ResourceNotFoundException {
         User user = userRepository.findById(userId)
@@ -104,7 +104,7 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/delete/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId)
             throws ResourceNotFoundException {
         User user = userRepository.findById(userId)

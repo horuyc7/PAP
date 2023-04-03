@@ -16,18 +16,18 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/org")
 public class OrganizationController {
     @Autowired
     private OrganizationRepository organizationRepository;
 
-    @GetMapping("/org/all")
+    @GetMapping("/all")
     public List<Organization> getAllOrganizations() {
         return organizationRepository.findAll();
     }
 
 
-    @GetMapping("/org/searchby/name/{name}")
+    @GetMapping("/searchby/name/{name}")
     public ResponseEntity<?> getOrganizationsByName(@PathVariable(value = "name") String name) {
         List<Organization> organizations = organizationRepository.findByNameIgnoreCase(name);
 
@@ -41,7 +41,7 @@ public class OrganizationController {
 
 
    // public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id") Long employeeId)
-    @GetMapping("/org/searchby/id/{id}")
+    @GetMapping("/searchby/id/{id}")
     public ResponseEntity<Organization> getorganizationById(@PathVariable(value = "id") Long organizationId)
             throws ResourceNotFoundException {
         Organization organization = organizationRepository.findById(organizationId)
@@ -49,7 +49,7 @@ public class OrganizationController {
         return ResponseEntity.ok().body(organization);
     }
 
-    @PostMapping("/org/add")
+    @PostMapping("/add")
     //public Employee createEmployee(@RequestBody User user) {
     public ResponseEntity<Organization> createOrganization(@RequestBody Organization organization)
     {
@@ -57,7 +57,7 @@ public class OrganizationController {
         return ResponseEntity.created(null).body(savedOrganization);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Organization> updateOrganization(@PathVariable(value = "id") Long organizationId,
                                                @RequestBody Organization organizationDetails) throws ResourceNotFoundException {
         Organization organization = organizationRepository.findById(organizationId)
@@ -84,7 +84,7 @@ public class OrganizationController {
         return ResponseEntity.ok(updatedOrganization);
     }
 
-    @DeleteMapping("/org/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public Map<String, Boolean> deleteOrganization(@PathVariable(value = "id") Long organizationId)
             throws ResourceNotFoundException {
         Organization organization = organizationRepository.findById(organizationId)
