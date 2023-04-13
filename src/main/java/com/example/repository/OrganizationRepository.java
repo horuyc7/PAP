@@ -10,5 +10,8 @@ import java.util.List;
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, Long>{
     List<Organization> findByNameIgnoreCase(String Name);
-    List<Organization> findByFirstNameIgnoreCase(String firstName);
+
+    List<Organization> findBypostalCode(String postalCode);
+
+    List<Organization> findBycountryId(int countryId);
 }

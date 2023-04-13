@@ -81,7 +81,6 @@ public class Organization {
 
     public Organization(String name, String address1, String address2, String address3, String city, String postalCode, String firstName, String middleName, String lastName, String mobilePhone, String workPhone, String homePhone, String email, int countryId, Long stateId, short statusId, String createdOn, Long createdBy, String modifiedOn, Long modifiedBy, Long rowVersion) {
 
-
         this.name = name;
         this.address1 = address1;
         this.address2 = address2;

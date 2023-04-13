@@ -29,50 +29,69 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+
     @GetMapping("/all")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-/*
-    @GetMapping("/user/search/{name}")
-    public List<User> getUserByfirstname(@PathVariable(value = "name") String firstName)
-        //public ResponseEntity<Employee> getEmployeeById(@PathVariable Long userId)
-            throws ResourceNotFoundException {
+    @GetMapping("/count")
+    public ResponseEntity<?> getUsersCount() {
 
-        return userRepository.findByfirstName(firstName);
-                //.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + firstName));
+        Long count = userRepository.count();
 
-    }*/
+        int c = count.intValue();
+        String message = "";
+        message += "User count is: " + c;
+
+        if (c <= 0){
+            message = "No users";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
+
 
     @GetMapping("/searchby/fname/{name}")
     public ResponseEntity<?> getUsersByFirstName(@PathVariable(value = "name") String firstName) {
+
         List<User> users = userRepository.findByfirstNameIgnoreCase(firstName);
 
         if (users.isEmpty()){
             String message = "No users found with first name: " + firstName;
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
         }
+
         return ResponseEntity.ok(users);
     }
 
 
+    @GetMapping("/searchby/lname/{name}")
+    public ResponseEntity<?> getUsersByLastName(@PathVariable(value = "name") String lastName) {
 
-   // public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id") Long employeeId)
+        List<User> users = userRepository.findBylastNameIgnoreCase(lastName);
+
+        if (users.isEmpty()){
+            String message = "No users found with last name: " + lastName;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        }
+
+        return ResponseEntity.ok(users);
+    }
+
+
     @GetMapping("/searchby/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId)
-    //public ResponseEntity<Employee> getEmployeeById(@PathVariable Long userId)
             throws ResourceNotFoundException {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
         return ResponseEntity.ok().body(user);
     }
 
     @PostMapping("/add")
-    //public Employee createEmployee(@RequestBody User user) {
-    public ResponseEntity<User> createUser(@RequestBody User user)
-    {
-        //return employeeRepository.save(employee);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+
         User savedUser = userRepository.save(user);
         return ResponseEntity.created(null).body(savedUser);
     }
@@ -80,8 +99,9 @@ public class UserController {
     @PutMapping("/update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,
                                                @RequestBody User userDetails) throws ResourceNotFoundException {
+
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
 
         user.setfirstName(userDetails.getfirstName());
         user.setmiddleName(userDetails.getmiddleName());
@@ -107,12 +127,13 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId)
             throws ResourceNotFoundException {
+
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
 
         userRepository.delete(user);
         Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
+        response.put("Deleted user: " + userId, Boolean.TRUE);
         return response;
     }
 }
