@@ -19,8 +19,6 @@ public class Country {
 
 
     @Column(name = "code", nullable = false, length = 10)
-    @JsonProperty("code_n")
-    @JsonSerialize(using = ToStringSerializer.class)
     private String code;
 
 
