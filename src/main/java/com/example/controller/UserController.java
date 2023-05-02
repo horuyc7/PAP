@@ -42,7 +42,7 @@ public class UserController {
 
         int c = count.intValue();
         String message = "";
-        message += "User count is: " + c;
+        message += "Users count is: " + c;
 
         if (c <= 0){
             message = "No users";

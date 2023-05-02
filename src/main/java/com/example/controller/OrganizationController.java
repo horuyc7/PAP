@@ -35,7 +35,7 @@ public class OrganizationController {
 
         int c = count.intValue();
         String message = "";
-        message += "Organization count is: " + c;
+        message += "Organizations count is: " + c;
 
         if (c <= 0){
             message = "No Organizations";
@@ -66,7 +66,7 @@ public class OrganizationController {
         List<Organization> organizations = organizationRepository.findBypostalCode(postalCode);
 
         if (organizations.isEmpty()){
-            String message = "No organizations found with the Postal Code: " + postalCode;
+            String message = "No organizations found with the postalcode: " + postalCode;
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
         }
 
@@ -80,7 +80,7 @@ public class OrganizationController {
         List<Organization> organizations = organizationRepository.findBycountryId(countryId);
 
         if (organizations.isEmpty()){
-            String message = "No organizations found with the Country ID: " + countryId;
+            String message = "No organizations found with the countryid: " + countryId;
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
         }
 
